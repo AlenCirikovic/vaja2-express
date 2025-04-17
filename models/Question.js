@@ -7,4 +7,6 @@ const QuestionSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     acceptedAnswer: { type: mongoose.Schema.Types.ObjectId, ref: 'Answer' }
   });
-  module.exports = mongoose.model('Question', QuestionSchema);
+
+  
+  module.exports = mongoose.models.Question || mongoose.model('Question', QuestionSchema);

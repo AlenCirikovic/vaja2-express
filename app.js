@@ -18,7 +18,7 @@ const answersRouter = require('./routes/answers');
 
 const app = express();
 
-mongoose.connect(process.env.MONGO_URL || 'mongodb+srv://alenciriko:Grumpex3230@cluster0.etllw.mongodb.net/vaja2?retryWrites=true&w=majority&appName=Cluster0',{
+mongoose.connect(process.env.MONGO_URL,{
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -37,7 +37,7 @@ app.use(session({
   secret: 'secretkey',
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: process.env.MONGO_URL || 'mongodb+srv://alenciriko:Grumpex3230@cluster0.etllw.mongodb.net/vaja2?retryWrites=true&w=majority&appName=Cluster0' })
+  store: MongoStore.create({ mongoUrl: process.env.MONGO_URL })
 }));
 
 app.use(function(req, res, next) {
