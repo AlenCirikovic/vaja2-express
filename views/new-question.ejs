@@ -1,0 +1,8 @@
+<% layout('layout', { title: 'Novo vprašanje' }) %>
+
+<h2>Objavi novo vprašanje</h2>
+<form method="POST" action="/questions">
+  <input type="text" name="title" placeholder="Naslov" required>
+  <textarea name="description" placeholder="Opis" required></textarea>
+  <button type="submit">Objavi</button>
+</form>

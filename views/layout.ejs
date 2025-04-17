@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <nav>
+    <a href="/">Domov</a>
+    <% if (user) { %>
+      <a href="/questions/new">Novo vprašanje</a>
+      <span>Prijavljen kot <%= user.username %></span>
+      <a href="/logout">Odjava</a>
+    <% } else { %>
+      <a href="/register">Registracija</a>
+      <a href="/login">Prijava</a>
+    <% } %>
+  </nav>
+  <hr>
+  <%- body %>
+</body>
+</html>

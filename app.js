@@ -5,12 +5,17 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
 
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-const userRouter = require('./routes/user');
-const questionRouter = require('./routes/question');
-const answerRouter = require('./routes/answer');
+const userRouter = require('./routes/users');
+const questionRouter = require('./routes/questions');
+const answerRouter = require('./routes/answers');
+
+
+
+var app = express();
 
 app.use('/users', userRouter);
 app.use('/questions', questionRouter);
@@ -23,8 +28,6 @@ mongoose.connect("mongodb+srv://alenciriko:Grumpex3230@cluster0.etllw.mongodb.ne
   useUnifiedTopology: true,
 });
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
