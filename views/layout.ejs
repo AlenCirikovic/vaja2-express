@@ -1,22 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title><%= title %></title>
+  <title>Q&A App</title>
   <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 <body>
-  <nav>
-    <a href="/">Domov</a>
-    <% if (user) { %>
-      <a href="/questions/new">Novo vprašanje</a>
-      <span>Prijavljen kot <%= user.username %></span>
-      <a href="/logout">Odjava</a>
-    <% } else { %>
-      <a href="/register">Registracija</a>
-      <a href="/login">Prijava</a>
-    <% } %>
-  </nav>
+  <% if (currentUser) { %>
+    <p>Prijavljen kot <%= currentUser.username %> | <a href="/users/logout">Odjava</a></p>
+  <% } else { %>
+    <a href="/users/login">Prijava</a> | <a href="/users/register">Registracija</a>
+  <% } %>
   <hr>
   <%- body %>
 </body>

@@ -1,33 +1,32 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const Question = require('../models/Question');
+const Answer = require('../models/Answer');
+
+router.get('/', async (req, res) => {
+  const questions = await Question.find().populate('user').sort({ createdAt: -1 });
+  res.render('questions/index', { questions });
+});
 
 router.get('/new', (req, res) => {
-    if (!req.session.user) return res.redirect('/login');
-    res.render('new-question');
+  if (!req.session.user) return res.redirect('/users/login');
+  res.render('questions/new');
 });
 
 router.post('/', async (req, res) => {
-    if (!req.session.user) return res.redirect('/login');
-    const question = new Question({
-        title: req.body.title,
-        description: req.body.description,
-        author: req.session.user._id,
-        createdAt: new Date()
-    });
-    await question.save();
-    res.redirect('/questions');
-});
-
-router.get('/', async (req, res) => {
-    const questions = await Question.find().populate('author').sort({ createdAt: -1 });
-    res.render('questions', { questions });
+  const question = new Question({
+    title: req.body.title,
+    description: req.body.description,
+    user: req.session.user._id
+  });
+  await question.save();
+  res.redirect('/questions');
 });
 
 router.get('/:id', async (req, res) => {
-    const question = await Question.findById(req.params.id).populate('author acceptedAnswer');
-    const answers = await Answer.find({ question: question._id }).populate('author').sort({ createdAt: -1 });
-    res.render('question', { question, answers });
+  const question = await Question.findById(req.params.id).populate('user acceptedAnswer');
+  const answers = await Answer.find({ question: question._id }).populate('user').sort({ createdAt: 1 });
+  res.render('questions/show', { question, answers });
 });
 
-
-
+module.exports = router;

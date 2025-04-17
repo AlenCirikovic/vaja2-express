@@ -1,24 +1,27 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const Answer = require('../models/Answer');
+const Question = require('../models/Question');
 
-router.post('/', async (req, res) => {
-    if (!req.session.user) return res.redirect('/login');
-    const answer = new Answer({
-        content: req.body.content,
-        author: req.session.user._id,
-        question: req.body.questionId,
-        createdAt: new Date()
-    });
-    await answer.save();
-    res.redirect(`/questions/${req.body.questionId}`);
+router.post('/:questionId', async (req, res) => {
+  if (!req.session.user) return res.redirect('/users/login');
+  const answer = new Answer({
+    content: req.body.content,
+    user: req.session.user._id,
+    question: req.params.questionId
+  });
+  await answer.save();
+  res.redirect('/questions/' + req.params.questionId);
 });
 
 router.post('/:id/accept', async (req, res) => {
-    const question = await Question.findById(req.params.id);
-    if (question.author.toString() !== req.session.user._id.toString()) {
-        return res.redirect(`/questions/${req.params.id}`);
-    }
-    question.acceptedAnswer = req.body.answerId;
+  const answer = await Answer.findById(req.params.id);
+  const question = await Question.findById(answer.question);
+  if (question.user.toString() === req.session.user._id.toString()) {
+    question.acceptedAnswer = answer._id;
     await question.save();
-    res.redirect(`/questions/${req.params.id}`);
+  }
+  res.redirect('/questions/' + question._id);
 });
+
+module.exports = router;

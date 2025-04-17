@@ -1,8 +1,9 @@
-<% layout('layout', { title: 'Registracija' }) %>
-
+<% layout('layout') -%>
 <h2>Registracija</h2>
-<form method="POST" action="/register">
-  <input type="text" name="username" placeholder="Uporabniško ime" required>
-  <input type="password" name="password" placeholder="Geslo" required>
-  <button type="submit">Registriraj se</button>
+<form method="post" action="/users/register">
+  <label>Uporabniško ime:</label><br>
+  <input type="text" name="username"><br>
+  <label>Geslo:</label><br>
+  <input type="password" name="password"><br>
+  <button type="submit">Registriraj</button>
 </form>

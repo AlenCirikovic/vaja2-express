@@ -1,0 +1,37 @@
+<% layout('layout') -%>
+<h2><%= question.title %></h2>
+<p><%= question.description %></p>
+<p><em>Objavil: <%= question.user.username %>, <%= question.createdAt.toLocaleString() %></em></p>
+
+<% if (question.acceptedAnswer) { %>
+  <h3>Sprejet odgovor</h3>
+  <div style="border:1px solid green; padding:10px;">
+    <p><%= question.acceptedAnswer.content %></p>
+    <p><small><%= question.acceptedAnswer.user.username %></small></p>
+  </div>
+<% } %>
+
+<h3>Odgovori</h3>
+<% answers.forEach(ans => { %>
+  <% if (!question.acceptedAnswer || ans._id.toString() !== question.acceptedAnswer._id.toString()) { %>
+    <div style="border:1px solid #ccc; padding:10px; margin-top:10px;">
+      <p><%= ans.content %></p>
+      <p><small><%= ans.user.username %>, <%= ans.createdAt.toLocaleString() %></small></p>
+      <% if (currentUser && question.user._id.toString() === currentUser._id.toString()) { %>
+        <form method="post" action="/answers/<%= ans._id %>/accept">
+          <button type="submit">Sprejmi kot pravilen</button>
+        </form>
+      <% } %>
+    </div>
+  <% } %>
+<% }) %>
+
+<% if (currentUser) { %>
+  <h3>Dodaj odgovor</h3>
+  <form method="post" action="/answers/<%= question._id %>">
+    <textarea name="content"></textarea><br>
+    <button type="submit">Objavi odgovor</button>
+  </form>
+<% } else { %>
+  <p><a href="/users/login">Prijavi se</a> za dodajanje odgovora.</p>
+<% } %>
