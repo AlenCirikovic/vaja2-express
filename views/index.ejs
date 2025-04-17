@@ -1,0 +1,11 @@
+<% layout('layout') -%>
+<h2>Vsa vprašanja</h2>
+<a href="/questions/new">Novo vprašanje</a>
+<ul>
+  <% questions.forEach(q => { %>
+    <li>
+      <a href="/questions/<%= q._id %>"><%= q.title %></a>
+      (objavil: <%= q.user.username %>, <%= q.createdAt.toLocaleString() %>)
+    </li>
+  <% }) %>
+</ul>

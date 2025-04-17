@@ -6,6 +6,8 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const ejsMate = require('ejs-mate');
+
 
 require('dotenv').config();
 
@@ -16,8 +18,12 @@ const answersRouter = require('./routes/answers');
 
 const app = express();
 
-mongoose.connect(process.env.MONGO_URL || 'mongodb+srv://alenciriko:Grumpex3230@cluster0.etllw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
+mongoose.connect(process.env.MONGO_URL || 'mongodb+srv://alenciriko:Grumpex3230@cluster0.etllw.mongodb.net/vaja2?retryWrites=true&w=majority&appName=Cluster0',{
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
+app.engine('ejs', ejsMate);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -31,7 +37,7 @@ app.use(session({
   secret: 'secretkey',
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: process.env.MONGO_URL || 'mongodb+srv://alenciriko:Grumpex3230@cluster0.etllw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0' })
+  store: MongoStore.create({ mongoUrl: process.env.MONGO_URL || 'mongodb+srv://alenciriko:Grumpex3230@cluster0.etllw.mongodb.net/vaja2?retryWrites=true&w=majority&appName=Cluster0' })
 }));
 
 app.use(function(req, res, next) {

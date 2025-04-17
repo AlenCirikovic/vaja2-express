@@ -1,9 +1,14 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get('/', async function(req, res, next) {
+  try {
+    const questions = await Question.find().populate('user'); // ← pridobi vprašanja
+    res.render('index', { title: 'Vsa vprašanja', questions }); // ← pošlji vprašanja v view
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;
