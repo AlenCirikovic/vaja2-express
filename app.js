@@ -3,9 +3,26 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+
+const userRouter = require('./routes/user');
+const questionRouter = require('./routes/question');
+const answerRouter = require('./routes/answer');
+
+app.use('/users', userRouter);
+app.use('/questions', questionRouter);
+app.use('/answers', answerRouter);
+
+
+
+mongoose.connect("mongodb+srv://alenciriko:Grumpex3230@cluster0.etllw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var app = express();
 
